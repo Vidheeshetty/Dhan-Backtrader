@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Enhanced Fixed Demo with Comprehensive Logging
-Based on your working fixed_demo.py - just adds logging and portfolio tracking
+TRULY Fixed Demo - Corrects the commission setup issue
+The problem was using 'fixed' parameter which doesn't exist in default broker
 """
 
 import backtrader as bt
@@ -10,7 +10,6 @@ import numpy as np
 from datetime import datetime, timedelta
 import json
 import csv
-import sqlite3
 from pathlib import Path
 
 # Load saved access token
@@ -29,8 +28,21 @@ ZERODHA_CONFIG = {
 
 TRADING_CONFIG = {
     'initial_cash': 500000.0,
-    'commission': 20.0  # Fixed Rs 20 per order (not percentage)
+    'commission': 20.0  # Fixed Rs 20 per order
 }
+
+class FixedCommissionInfo(bt.CommInfoBase):
+    """
+    Custom commission class for fixed Rs 20 per order
+    This is the CORRECT way to set fixed commission in Backtrader
+    """
+    
+    def __init__(self):
+        super(FixedCommissionInfo, self).__init__()
+        
+    def _getcommission(self, size, price, pseudoexec):
+        """Return fixed commission regardless of trade size or price"""
+        return TRADING_CONFIG['commission']
 
 class TradingLogger:
     """Simple logging for your existing setup"""
@@ -76,7 +88,7 @@ class TradingLogger:
                 writer.writeheader()
             writer.writerow(trade)
         
-        print(f"📊 TRADE LOGGED: {action} {quantity} {symbol} @ Rs{price:.2f} | P&L: Rs{pnl:.2f}")
+        print(f"📊 TRADE LOGGED: {action} {quantity} {symbol} @ Rs{price:.2f} | Commission: Rs{commission:.2f} | P&L: Rs{pnl:.2f}")
     
     def log_portfolio(self, total_value, cash, total_pnl):
         """Log portfolio status"""
@@ -109,11 +121,14 @@ class TradingLogger:
         buy_trades = len(trades_df[trades_df['action'] == 'BUY'])
         sell_trades = len(trades_df[trades_df['action'] == 'SELL'])
         total_pnl = trades_df['pnl'].sum()
+        total_commission = trades_df['commission'].sum()
         
         print(f"Total Trades: {total_trades}")
         print(f"Buy Orders: {buy_trades}")
         print(f"Sell Orders: {sell_trades}")
+        print(f"Total Commission Paid: Rs{total_commission:,.2f}")
         print(f"Total P&L: Rs{total_pnl:,.2f}")
+        print(f"Net P&L (after commission): Rs{total_pnl - total_commission:,.2f}")
         
         if self.session_data['portfolio_updates']:
             final_portfolio = self.session_data['portfolio_updates'][-1]
@@ -150,6 +165,7 @@ class EnhancedStrategy(bt.Strategy):
         
         print(f"📈 Enhanced Strategy initialized for {self.data._name}")
         print(f"   Fast MA: {self.params.fast_ma}, Slow MA: {self.params.slow_ma}")
+        print(f"   Fixed Commission: Rs{TRADING_CONFIG['commission']:.2f} per order")
     
     def next(self):
         # Your existing trading logic
@@ -181,9 +197,9 @@ class EnhancedStrategy(bt.Strategy):
             )
             
             if order.isbuy():
-                print(f"✅ BUY EXECUTED: {order.executed.size} @ Rs{order.executed.price:.2f}")
+                print(f"✅ BUY EXECUTED: {order.executed.size} @ Rs{order.executed.price:.2f} | Commission: Rs{order.executed.comm:.2f}")
             else:
-                print(f"✅ SELL EXECUTED: {order.executed.size} @ Rs{order.executed.price:.2f}")
+                print(f"✅ SELL EXECUTED: {order.executed.size} @ Rs{order.executed.price:.2f} | Commission: Rs{order.executed.comm:.2f}")
         
         self.order = None
     
@@ -205,7 +221,7 @@ class EnhancedStrategy(bt.Strategy):
                 cash=self.broker.getcash()
             )
             
-            print(f"💰 TRADE #{self.trade_count}: P&L = Rs{profit:.2f}")
+            print(f"💰 TRADE #{self.trade_count}: Gross P&L = Rs{trade.pnl:.2f} | Commission = Rs{trade.commission:.2f} | Net P&L = Rs{profit:.2f}")
             
             # Log portfolio update
             total_return = self.broker.getvalue() - TRADING_CONFIG['initial_cash']
@@ -296,10 +312,10 @@ def test_zerodha_api():
         print(f"API test failed: {e}")
         return False
 
-def run_enhanced_demo():
-    """Enhanced version of your working demo"""
-    print("Enhanced Zerodha + Backtrader Demo with Logging")
-    print("=" * 60)
+def run_truly_fixed_demo():
+    """TRULY fixed version - correct commission setup"""
+    print("TRULY Fixed Zerodha + Backtrader Demo")
+    print("=" * 50)
     
     # Check token status (your existing code)
     if ZERODHA_CONFIG['access_token']:
@@ -311,16 +327,18 @@ def run_enhanced_demo():
     
     print()
     
-    # Create cerebro (your existing setup)
+    # Create cerebro
     cerebro = bt.Cerebro()
     
-    # FIXED: Use correct commission setting (fixed amount, not percentage)
+    # CORRECT WAY: Set commission using custom commission info class
     cerebro.broker.setcash(TRADING_CONFIG['initial_cash'])
-    cerebro.broker.setcommission(commission=0.0, fixed=TRADING_CONFIG['commission'])  # FIXED!
     
-    print(f"🏦 Enhanced Backtrader broker")
+    # Set the custom commission info for fixed Rs 20 per order
+    cerebro.broker.addcommissioninfo(FixedCommissionInfo())
+    
+    print(f"🏦 Correctly configured Backtrader broker")
     print(f"   Initial Cash: Rs{cerebro.broker.getcash():,.2f}")
-    print(f"   Commission: Rs{TRADING_CONFIG['commission']:.2f} per order (FIXED)")
+    print(f"   Commission: Rs{TRADING_CONFIG['commission']:.2f} per order (FIXED - CORRECTLY SET)")
     print(f"   📝 Logging: Enabled")
     
     # Add sample data (your existing code)
@@ -333,7 +351,7 @@ def run_enhanced_demo():
     
     print(f"\nStarting Portfolio: Rs{cerebro.broker.getvalue():,.2f}")
     print()
-    print("Running enhanced strategy with logging...")
+    print("Running TRULY fixed demo...")
     print("=" * 40)
     
     # Run backtest
@@ -341,7 +359,7 @@ def run_enhanced_demo():
         results = cerebro.run()
         
         print("=" * 40)
-        print("📊 ENHANCED DEMO RESULTS")
+        print("📊 TRULY FIXED DEMO RESULTS")
         print("=" * 40)
         
         final_value = cerebro.broker.getvalue()
@@ -354,10 +372,11 @@ def run_enhanced_demo():
         print(f"Return %: {return_pct:.2f}%")
         
         print()
-        print("✅ Enhanced demo completed successfully!")
-        print("🎯 What's new:")
-        print("   📝 All trades logged to CSV and JSON")
-        print("   💰 Fixed commission calculation")
+        print("✅ TRULY fixed demo completed successfully!")
+        print("🎯 What was ACTUALLY fixed:")
+        print("   🔧 Used FixedCommissionInfo class instead of 'fixed' parameter")
+        print("   📝 All trades logged with CORRECT commission calculation")
+        print("   💰 Fixed Rs 20 commission per order (not percentage)")
         print("   📊 Portfolio tracking enabled")
         print("   📁 Session reports generated")
         
@@ -376,4 +395,4 @@ def run_enhanced_demo():
         return False
 
 if __name__ == '__main__':
-    run_enhanced_demo()
+    run_truly_fixed_demo()

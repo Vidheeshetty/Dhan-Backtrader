@@ -1,0 +1,163 @@
+{
+  "start_time": "2025-09-20T17:26:46.291834",
+  "trades": [
+    {
+      "timestamp": "2025-09-20T17:26:46.308855",
+      "symbol": "RELIANCE",
+      "action": "BUY",
+      "quantity": 1,
+      "price": 2439.74,
+      "commission": 20.0,
+      "pnl": 0.0,
+      "portfolio_value": 499971.79000000004,
+      "cash": 497540.26
+    },
+    {
+      "timestamp": "2025-09-20T17:26:46.315354",
+      "symbol": "RELIANCE",
+      "action": "SELL",
+      "quantity": -1,
+      "price": 2432.73,
+      "commission": 20.0,
+      "pnl": 0.0,
+      "portfolio_value": 499952.99,
+      "cash": 499952.99
+    },
+    {
+      "timestamp": "2025-09-20T17:26:46.317396",
+      "symbol": "RELIANCE",
+      "action": "TRADE_CLOSED",
+      "quantity": 0,
+      "price": 2439.74,
+      "commission": 40.0,
+      "pnl": -47.00999999999976,
+      "portfolio_value": 499952.99,
+      "cash": 499952.99
+    },
+    {
+      "timestamp": "2025-09-20T17:26:46.323242",
+      "symbol": "RELIANCE",
+      "action": "BUY",
+      "quantity": 1,
+      "price": 2420.1,
+      "commission": 20.0,
+      "pnl": 0.0,
+      "portfolio_value": 499942.08,
+      "cash": 497512.89
+    },
+    {
+      "timestamp": "2025-09-20T17:26:46.326034",
+      "symbol": "RELIANCE",
+      "action": "SELL",
+      "quantity": -1,
+      "price": 2429.98,
+      "commission": 20.0,
+      "pnl": 0.0,
+      "portfolio_value": 499922.87,
+      "cash": 499922.87
+    },
+    {
+      "timestamp": "2025-09-20T17:26:46.327045",
+      "symbol": "RELIANCE",
+      "action": "TRADE_CLOSED",
+      "quantity": 0,
+      "price": 2420.1,
+      "commission": 40.0,
+      "pnl": -30.11999999999989,
+      "portfolio_value": 499922.87,
+      "cash": 499922.87
+    },
+    {
+      "timestamp": "2025-09-20T17:26:46.334323",
+      "symbol": "RELIANCE",
+      "action": "BUY",
+      "quantity": 1,
+      "price": 2420.62,
+      "commission": 20.0,
+      "pnl": 0.0,
+      "portfolio_value": 499908.8,
+      "cash": 497482.25
+    },
+    {
+      "timestamp": "2025-09-20T17:26:46.339339",
+      "symbol": "RELIANCE",
+      "action": "SELL",
+      "quantity": -1,
+      "price": 2419.6,
+      "commission": 20.0,
+      "pnl": 0.0,
+      "portfolio_value": 499881.85,
+      "cash": 499881.85
+    },
+    {
+      "timestamp": "2025-09-20T17:26:46.341349",
+      "symbol": "RELIANCE",
+      "action": "TRADE_CLOSED",
+      "quantity": 0,
+      "price": 2420.62,
+      "commission": 40.0,
+      "pnl": -41.01999999999998,
+      "portfolio_value": 499881.85,
+      "cash": 499881.85
+    },
+    {
+      "timestamp": "2025-09-20T17:26:46.346340",
+      "symbol": "RELIANCE",
+      "action": "BUY",
+      "quantity": 1,
+      "price": 2420.92,
+      "commission": 20.0,
+      "pnl": 0.0,
+      "portfolio_value": 499864.94,
+      "cash": 497440.93
+    },
+    {
+      "timestamp": "2025-09-20T17:26:46.353688",
+      "symbol": "RELIANCE",
+      "action": "SELL",
+      "quantity": -1,
+      "price": 2431.68,
+      "commission": 20.0,
+      "pnl": 0.0,
+      "portfolio_value": 499852.61,
+      "cash": 499852.61
+    },
+    {
+      "timestamp": "2025-09-20T17:26:46.355687",
+      "symbol": "RELIANCE",
+      "action": "TRADE_CLOSED",
+      "quantity": 0,
+      "price": 2420.92,
+      "commission": 40.0,
+      "pnl": -29.240000000000236,
+      "portfolio_value": 499852.61,
+      "cash": 499852.61
+    }
+  ],
+  "portfolio_updates": [
+    {
+      "timestamp": "2025-09-20T17:26:46.319181",
+      "total_value": 499952.99,
+      "cash": 499952.99,
+      "total_pnl": -47.01000000000931
+    },
+    {
+      "timestamp": "2025-09-20T17:26:46.328051",
+      "total_value": 499922.87,
+      "cash": 499922.87,
+      "total_pnl": -77.13000000000466
+    },
+    {
+      "timestamp": "2025-09-20T17:26:46.342339",
+      "total_value": 499881.85,
+      "cash": 499881.85,
+      "total_pnl": -118.15000000002328
+    },
+    {
+      "timestamp": "2025-09-20T17:26:46.356689",
+      "total_value": 499852.61,
+      "cash": 499852.61,
+      "total_pnl": -147.39000000001397
+    }
+  ]
+}
